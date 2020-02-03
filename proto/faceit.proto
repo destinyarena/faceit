@@ -1,0 +1,56 @@
+// gRPC for the faceit api
+
+syntax = "proto3";
+
+package faceit;
+
+service Faceit {
+    rpc GetProfile (ProfileRequest) returns (ProfileReply) {}
+    rpc GetInvite (InviteRequest) returns (InviteReply) {}
+    rpc Ban (BanRequest) returns (BanReply) {}
+    rpc Unban (UnbanRequest) returns (UnbanReply) {}
+}
+
+
+// Profile
+message ProfileRequest {
+    string guid = 1;
+}
+
+message ProfileReply {
+    string guid = 1;
+    int32 skilllvl = 2;
+    string username = 3;
+}
+
+// Invite
+message InviteRequest {
+    string hubid = 1;
+}
+
+message InviteReply {
+    string base = 1;
+    string code = 2;
+}
+
+// Ban
+message BanRequest {
+    string hubid = 1;
+    string guid = 2;
+    string reason = 3;
+}
+
+message BanReply {
+    string status = 1;
+}
+
+// UnBan
+message UnbanRequest {
+    string hubid = 1;
+    string guid = 2;
+    string reason = 3;
+}
+
+message UnbanReply {
+    string status = 1;
+}
