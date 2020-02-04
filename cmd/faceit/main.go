@@ -24,6 +24,7 @@ func main() {
     if err != nil {
         log.Fatalf(err.Error())
     }
+    log.Infof("Listening on: %s", host)
 
     s := grpc.NewServer()
 
