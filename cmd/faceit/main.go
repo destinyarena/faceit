@@ -1,6 +1,7 @@
 package main
 
 import (
+    "fmt"
     "net"
     "google.golang.org/grpc"
     pb "github.com/arturoguerra/destinyarena-faceit/proto"
@@ -18,7 +19,8 @@ type FaceitServer struct {
 
 func main() {
     cfg := config.LoadConfig()
-    lis, err := net.Listen("tcp", cfg.Port)
+    host := fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)
+    lis, err := net.Listen("tcp", host)
     if err != nil {
         log.Fatalf(err.Error())
     }
