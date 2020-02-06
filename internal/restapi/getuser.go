@@ -2,7 +2,6 @@ package faceit
 
 import (
     "fmt"
-    "errors"
     "net/http"
     "io/ioutil"
     "encoding/json"
@@ -18,14 +17,16 @@ func (f *Faceit) GetUser(guid string) (*FaceitUser, error) {
         return nil, err
     }
 
-    if resp.StatusCode != 200 {
-        err = errors.New("Invalid code")
+    rawbody, _ := ioutil.ReadAll(resp.Body)
+    defer resp.Body.Close()
+
+    if resp.StatusCode != 200 && resp.StatusCode != 201 {
+        fmt.Println(string(rawbody))
+        err = fmt.Errorf("Server responded with: %d", resp.StatusCode)
         return nil, err
     }
 
-    defer resp.Body.Close()
 
-    rawbody, _ := ioutil.ReadAll(resp.Body)
     var body RawUser
     json.Unmarshal([]byte(rawbody), &body)
 

@@ -6,6 +6,7 @@ import (
 )
 
 func (f *FaceitServer) GetProfile(ctx context.Context, in *pb.ProfileRequest) (*pb.ProfileReply, error) {
+    log.Infoln(in.GetGuid())
     u, err := f.API.GetUser(in.GetGuid())
     if err != nil {
         log.Error(err)
