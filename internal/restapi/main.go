@@ -2,7 +2,10 @@ package faceit
 
 import (
     "net/http"
+    "github.com/arturoguerra/destinyarena-faceit/internal/logging"
 )
+
+var log = logging.New()
 
 type Faceit struct {
     UC *http.Client

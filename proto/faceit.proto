@@ -9,8 +9,8 @@ service Faceit {
     rpc GetInvite (InviteRequest) returns (InviteReply) {}
     rpc Ban (BanRequest) returns (Empty) {}
     rpc Unban (BanRequest) returns (Empty) {}
+    rpc GetUserHubs(ProfileRequest) returns (stream Hub) {}
 }
-
 
 // Profile
 message ProfileRequest {
@@ -40,5 +40,12 @@ message BanRequest {
     string reason = 3;
 }
 
+message Hub {
+    string hubid  = 1;
+    string name   = 2;
+    string gameid = 3;
+}
+
+// Helper
 message Empty {
 }
