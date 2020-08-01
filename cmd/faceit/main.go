@@ -1,40 +1,41 @@
 package main
 
 import (
-    "fmt"
-    "net"
-    "google.golang.org/grpc"
-    pb "github.com/arturoguerra/destinyarena-faceit/proto"
-    faceit "github.com/arturoguerra/destinyarena-faceit/internal/restapi"
-    "github.com/arturoguerra/destinyarena-faceit/internal/config"
-    "github.com/arturoguerra/destinyarena-faceit/internal/logging"
+	"fmt"
+	"net"
+
+	pb "github.com/arturoguerra/destinyarena-faceit/proto"
+	"github.com/destinyarena/faceit/internal/config"
+	"github.com/destinyarena/faceit/internal/logging"
+	faceit "github.com/destinyarena/faceit/internal/restapi"
+	"google.golang.org/grpc"
 )
 
 var log = logging.New()
 
 type FaceitServer struct {
-    API *faceit.Faceit
-    pb.UnimplementedFaceitServer
+	API *faceit.Faceit
+	pb.UnimplementedFaceitServer
 }
 
 func main() {
-    cfg := config.LoadConfig()
-    host := fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)
-    lis, err := net.Listen("tcp", host)
-    if err != nil {
-        log.Fatalf(err.Error())
-    }
-    log.Infof("Listening on: %s", host)
+	cfg := config.LoadConfig()
+	host := fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)
+	lis, err := net.Listen("tcp", host)
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+	log.Infof("Listening on: %s", host)
 
-    s := grpc.NewServer()
+	s := grpc.NewServer()
 
-    api := faceit.New(cfg.ApiToken, cfg.UserToken)
+	api := faceit.New(cfg.ApiToken, cfg.UserToken)
 
-    fs := &FaceitServer{
-        API: api,
-    }
-    pb.RegisterFaceitServer(s, fs)
-    if err := s.Serve(lis); err != nil {
-        log.Fatalf("Failed to serve: %v", err)
-    }
+	fs := &FaceitServer{
+		API: api,
+	}
+	pb.RegisterFaceitServer(s, fs)
+	if err := s.Serve(lis); err != nil {
+		log.Fatalf("Failed to serve: %v", err)
+	}
 }
