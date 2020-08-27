@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"net"
 
-	pb "github.com/arturoguerra/destinyarena-faceit/proto"
 	"github.com/destinyarena/faceit/internal/config"
 	"github.com/destinyarena/faceit/internal/logging"
 	faceit "github.com/destinyarena/faceit/internal/restapi"
+	pb "github.com/destinyarena/faceit/proto"
 	"google.golang.org/grpc"
 )
 
 var log = logging.New()
 
-type FaceitServer struct {
-	API *faceit.Faceit
+type faceitService struct {
+	API faceit.Faceit
 	pb.UnimplementedFaceitServer
 }
 
@@ -29,11 +29,15 @@ func main() {
 
 	s := grpc.NewServer()
 
-	api := faceit.New(cfg.ApiToken, cfg.UserToken)
+	api, err := faceit.New(cfg.ApiToken, cfg.UserToken)
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
 
-	fs := &FaceitServer{
+	fs := &faceitService{
 		API: api,
 	}
+
 	pb.RegisterFaceitServer(s, fs)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve: %v", err)

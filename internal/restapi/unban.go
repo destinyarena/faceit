@@ -1,30 +1,28 @@
 package faceit
 
 import (
-    "fmt"
-    "errors"
-    "net/http"
+	"fmt"
+	"net/http"
 )
 
-func (f *Faceit) Unban(hubid, guid, reasion string) error {
-    url := fmt.Sprintf("https://api.faceit.com/hubs/v1/hub/%s/ban/%s", hubid, guid)
+func (f *faceit) Unban(hubid, guid, reasion string) error {
+	url := fmt.Sprintf("https://api.faceit.com/hubs/v1/hub/%s/ban/%s", hubid, guid)
 
-    req, err := http.NewRequest("POST", url, nil)
-    if err != nil {
-        return err
-    }
+	req, err := http.NewRequest("POST", url, nil)
+	if err != nil {
+		return err
+	}
 
-    resp, err := f.UC.Do(req)
-    if err != nil {
-        return err
-    }
+	resp, err := f.UC.Do(req)
+	if err != nil {
+		return err
+	}
 
-    defer resp.Body.Close()
+	defer resp.Body.Close()
 
-    if resp.StatusCode != 200 && resp.StatusCode != 201 {
-        err = errors.New(fmt.Sprintf("Server returned: %d", resp.StatusCode))
-        return err
-    }
+	if resp.StatusCode != 200 && resp.StatusCode != 201 {
+		return fmt.Errorf("Server returned: %d", resp.StatusCode)
+	}
 
-    return nil
+	return nil
 }

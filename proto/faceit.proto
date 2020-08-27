@@ -2,10 +2,13 @@
 
 syntax = "proto3";
 
+option go_package = ".;faceit";
+
 package faceit;
 
 service Faceit {
-    rpc GetProfile (ProfileRequest) returns (ProfileReply) {}
+    rpc GetProfileByID (ProfileRequest) returns (ProfileReply) {}
+    rpc GetProfileByName (ProfileNameRequest) returns (ProfileReply) {}
     rpc GetInvite (InviteRequest) returns (InviteReply) {}
     rpc Ban (BanRequest) returns (Empty) {}
     rpc Unban (BanRequest) returns (Empty) {}
@@ -15,6 +18,10 @@ service Faceit {
 // Profile
 message ProfileRequest {
     string guid = 1;
+}
+
+message ProfileNameRequest {
+    string name = 1;
 }
 
 message ProfileReply {

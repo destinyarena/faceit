@@ -7,7 +7,7 @@ all: clean build
 
 proto-build:
 	rm -rf proto/*.go
-	protoc -I ./proto ./proto/faceit.proto --go_out=plugins=grpc:proto
+	protoc --go_out=plugins=grpc:./proto -I ./proto ./proto/faceit.proto
 
 clean:
 	rm -rf bin

@@ -9,7 +9,8 @@ import (
 	"net/http"
 )
 
-func (f *Faceit) GetInvite(hubid string) (error, string) {
+// GetInvite returns a hub invite link
+func (f *faceit) GetInvite(hubid string) (string, error) {
 	reqBody, _ := json.Marshal(ReqInvitePayload{
 		EntityID:   hubid,
 		EntityType: "hub",
@@ -21,33 +22,33 @@ func (f *Faceit) GetInvite(hubid string) (error, string) {
 	url := "https://api.faceit.com/invitations/v1/invite"
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(reqBody))
 	if err != nil {
-		return err, ""
+		return "", err
 	}
 
 	resp, err := f.UC.Do(req)
 	if err != nil {
-		return err, ""
+		return "", err
 	}
 
 	if resp.StatusCode != 200 && resp.StatusCode != 201 {
 		err = fmt.Errorf("Server response code: %d", resp.StatusCode)
-		return err, ""
+		return "", err
 	}
 
 	defer resp.Body.Close()
 
 	raw, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return err, ""
+		return "", err
 	}
 
 	var body Invite
 	json.Unmarshal([]byte(raw), &body)
 
-	if body.Payload.Code == "" {
+	if len(body.Payload.Code) == 0 {
 		err = errors.New("Invalid invite code")
-		return err, ""
+		return "", err
 	}
 
-	return nil, body.Payload.Code
+	return body.Payload.Code, err
 }
