@@ -6,8 +6,8 @@ import (
 	pb "github.com/destinyarena/faceit/proto"
 )
 
-func (f *faceitService) Unban(ctx context.Context, in *pb.BanRequest) (*pb.Empty, error) {
-	err := f.API.Ban(in.GetHubid(), in.GetGuid(), in.GetReason())
+func (f *faceitService) Unban(ctx context.Context, in *pb.UnbanRequest) (*pb.Empty, error) {
+	err := f.API.Unban(in.GetHubid(), in.GetGuid())
 	if err != nil {
 		log.Error(err)
 		return nil, err

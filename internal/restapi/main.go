@@ -11,12 +11,12 @@ var log = logging.New()
 type (
 	// Faceit exports functions that allow interaction with the Faceit REST API
 	Faceit interface {
-		Ban(string, string, string) error
-		GetUserHubs(string) ([]*Hub, error)
-		GetInvite(string) (string, error)
-		GetUserByID(string) (*User, error)
-		GetUserByName(string) (*User, error)
-		Unban(string, string, string) error
+		Ban(hubid, guid, reason string) error
+		Unban(hubid, guid string) error
+		GetUserHubs(guid string) ([]*Hub, error)
+		GetInvite(hubid string) (string, error)
+		GetUserByID(guid string) (*User, error)
+		GetUserByName(name string) (*User, error)
 	}
 
 	faceit struct {

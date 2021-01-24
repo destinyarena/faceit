@@ -5,10 +5,10 @@ import (
 	"net/http"
 )
 
-func (f *faceit) Unban(hubid, guid, reasion string) error {
+func (f *faceit) Unban(hubid, guid string) error {
 	url := fmt.Sprintf("https://api.faceit.com/hubs/v1/hub/%s/ban/%s", hubid, guid)
 
-	req, err := http.NewRequest("POST", url, nil)
+	req, err := http.NewRequest("DELETE", url, nil)
 	if err != nil {
 		return err
 	}

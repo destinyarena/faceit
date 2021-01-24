@@ -15,13 +15,13 @@ type BanPayload struct {
 }
 
 // Ban is the function that drops the hammer :)
-func (f *faceit) Ban(hubid, guid, reasion string) error {
+func (f *faceit) Ban(hubid, guid, reason string) error {
 	url := fmt.Sprintf("https://api.faceit.com/hubs/v1/hub/%s/ban/%s", hubid, guid)
 
 	payload := BanPayload{
 		HubID:   hubid,
 		UserID:  guid,
-		Reasion: reasion,
+		Reasion: reason,
 	}
 
 	body, err := json.Marshal(payload)
