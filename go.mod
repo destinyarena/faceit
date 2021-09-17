@@ -8,7 +8,7 @@ require (
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/onrik/logrus v0.7.0
 	github.com/sirupsen/logrus v1.6.0
-	github.com/tidwall/gjson v1.6.0 // indirect
+	github.com/tidwall/gjson v1.9.1 // indirect
 	golang.org/x/net v0.0.0-20200822124328-c89045814202 // indirect
 	golang.org/x/sys v0.0.0-20200826173525-f9321e4c35a6 // indirect
 	golang.org/x/text v0.3.3 // indirect
